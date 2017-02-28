@@ -79,9 +79,11 @@
     self.failedURL = nil;
 
     // set the webview delegate to notify navigation events
+    UIWebView *webView = self.webView;
+    
     notificationDelegate = [[CVDWebViewNotificationDelegate alloc] init];
-    notificationDelegate.wrappedDelegate = self.webView.delegate;
-    [self.webView setDelegate:notificationDelegate];
+    notificationDelegate.wrappedDelegate = [webView delegate];
+    [webView setDelegate:notificationDelegate];
 }
 
 // enables offline page support
@@ -149,7 +151,8 @@
                 }
                 else {
                     if (self.failedURL) {
-                        [self.webView loadRequest: [NSURLRequest requestWithURL: self.failedURL]];
+                        UIWebView *webView = self.webView;
+                        [webView loadRequest: [NSURLRequest requestWithURL: self.failedURL]];
                     }
                     else {
                         [self.offlineView setHidden:YES];
